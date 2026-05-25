@@ -124,6 +124,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="NotinOOP.cpp" />
+    <ClCompile Include="Review.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Review.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
