@@ -52,5 +52,5 @@ std::string Review::save() const
 	std::ostringstream oss;
 	oss << reviewId << "|" << fragranceName << "|"
 		<< userId << "|" << rating << "|" << comment;
-	return oss.str(); 
+	return oss.str();
 }
