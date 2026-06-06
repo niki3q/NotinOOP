@@ -59,7 +59,7 @@ public:
 	FragranceFamily getFamily() const;
 	double getPrice() const;
 	int getQuantity() const;
-	const std::vector<Review> getReviews() const;
+	const std::vector<Review>& getReviews() const;
 
 	void addQuantity(int quant);
 	bool reduceQuantity();
@@ -69,7 +69,8 @@ public:
 	bool removeReview(int reviewId);
 	//int countReviewsByUser
 	const Review* findReview(int reviewId) const;;
-	static void resetCounter(int value);
-	static int  getNextId();
+	static int getNextId() { return nextId; }
+	static void setNextId(int id) { nextId = id; }
+	int countReviewsByUser(int userId) const;
 };
 

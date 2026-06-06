@@ -37,7 +37,7 @@ double Fragrance::getPrice() const {
 int Fragrance::getQuantity() const {
 	return quantity;
 }
-const std::vector<Review>  Fragrance::getReviews() const {
+const std::vector<Review>& Fragrance::getReviews() const {
 	return reviews;
 }
 
@@ -52,22 +52,75 @@ bool Fragrance::reduceQuantity() {
 	return true;
 }
 double Fragrance::getRating() const {
+	if (reviews.empty()) {
+		throw std::runtime_error("No reviews available for fragrance '" +
+			fragranceName + "' (ID: " +
+			std::to_string(fragranceId) + ")");
+	}
 
+	double sum = 0.0;
+	for (const auto& r : reviews) {
+		sum += r.getRating();
+	}
+
+	return sum / reviews.size();
 }
 
 void Fragrance::addReview(const Review& newReview) {
-
+	reviews.push_back(newReview);
 }
-bool Fragrance::removeReview(int reviewId) {
 
+bool Fragrance::removeReview(int reviewId) {
+	if (reviews.empty()) {
+		throw std::runtime_error("Cannot remove review: No reviews available for fragrance '"
+			+ fragranceName + "'");
+	}
+
+	auto it = std::find_if(reviews.begin(), reviews.end(),
+		[reviewId](const Review& r) {
+			return r.getReviewId() == reviewId;
+		});
+
+	if (it == reviews.end()) {
+		throw std::invalid_argument("Review with ID " + std::to_string(reviewId)
+			+ " not found in fragrance '" + fragranceName + "'");
+	}
+
+	reviews.erase(it);
+
+	std::cout << "Review #" << reviewId << " successfully removed from '"
+		<< fragranceName << "'.\n";
+	return true;
 }
 
 const Review* Fragrance::findReview(int reviewId) const {
+	if (reviews.empty()) {
+		throw std::runtime_error("Cannot find review: No reviews available for fragrance '"
+			+ fragranceName + "' (ID: " + std::to_string(fragranceId) + ")");
+	}
 
+	auto it = std::find_if(reviews.begin(), reviews.end(),
+		[reviewId](const Review& r) {
+			return r.getReviewId() == reviewId;
+		});
+
+	if (it == reviews.end()) {
+		throw std::invalid_argument("Review with ID " + std::to_string(reviewId)
+			+ " not found in fragrance '" + fragranceName + "'");
+	}
+
+	return &(*it);
 }
+
+int Fragrance::countReviewsByUser(int userId) const
+{
+	int count = 0;
+	for (const auto& r : reviews) {
+		if (r.getUserId() == userId) count++;
+	}
+	return count;
+}
+
 static void resetCounter(int value) {
-
-}
-static int  getNextId() {
 
 }

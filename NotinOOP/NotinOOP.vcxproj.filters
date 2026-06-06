@@ -24,6 +24,9 @@
     <ClCompile Include="Fragrance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Purchase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Review.h">
@@ -35,6 +38,9 @@
     <ClCompile Include="Review.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClInclude Include="Purchase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Review.h">
