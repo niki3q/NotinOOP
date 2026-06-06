@@ -1,11 +1,21 @@
 // NotinOOP.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-
+#include "Admin.h"
 #include <iostream>
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    Admin adminUser("admin1", "super_secret_fmi");
+
+    std::cout << "User type: " << adminUser.getType() << "\n";
+
+    if (adminUser.isAdmin()) {
+        std::cout << "Access Granted: Welcome to the Admin Panel, " << adminUser.getUsername() << "!\n\n";
+    }
+
+    adminUser.showHelp();
+
+    return 0;
 
 }
 

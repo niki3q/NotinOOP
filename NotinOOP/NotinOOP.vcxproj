@@ -124,6 +124,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Admin.cpp" />
     <ClCompile Include="BonusDiscount.cpp" />
     <ClCompile Include="BrandDiscount.cpp" />
     <ClCompile Include="Discount.cpp" />
@@ -131,14 +132,17 @@
     <ClCompile Include="NotinOOP.cpp" />
     <ClCompile Include="Purchase.cpp" />
     <ClCompile Include="Review.cpp" />
+    <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Admin.h" />
     <ClInclude Include="BonusDiscount.h" />
     <ClInclude Include="BrandDiscount.h" />
     <ClInclude Include="Discount.h" />
     <ClInclude Include="Fragrance.h" />
     <ClInclude Include="Purchase.h" />
     <ClInclude Include="Review.h" />
+    <ClInclude Include="User.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
