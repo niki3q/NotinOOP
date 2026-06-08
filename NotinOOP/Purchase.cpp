@@ -1,4 +1,5 @@
 #include "Purchase.h"
+#include <iostream>
 
 int Purchase::nextId = 1;
 
@@ -46,5 +47,17 @@ void Purchase::setNextId(int id)
 int Purchase::getNextId() 
 { 
     return nextId;
+}
+
+void  Purchase::show() const {
+    std::cout << "  Purchase #" << userId
+        << "[" << purchaseId << "]"
+        << " total:$ " << totalPrice << "\n"
+        << " items: ";
+    for (size_t i = 0; i < fragranceNames.size(); ++i) {
+        std::cout << fragranceNames[i];
+        if (i + 1 < fragranceNames.size()) std::cout << ", ";
+    }
+    std::cout << "\n";
 }
 

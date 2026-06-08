@@ -10,7 +10,7 @@ public:
 	Admin(int id, const std::string& username, const std::string& password, bool blocked);
 
 	bool isAdmin() const override;
-	std::string getType() const override;
+	std::string getRole() const override;
 	void showHelp() const override;
 };
 

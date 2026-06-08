@@ -127,6 +127,8 @@
     <ClCompile Include="Admin.cpp" />
     <ClCompile Include="BonusDiscount.cpp" />
     <ClCompile Include="BrandDiscount.cpp" />
+    <ClCompile Include="Buyer.cpp" />
+    <ClCompile Include="Cart.cpp" />
     <ClCompile Include="Discount.cpp" />
     <ClCompile Include="Fragrance.cpp" />
     <ClCompile Include="NotinOOP.cpp" />
@@ -138,6 +140,8 @@
     <ClInclude Include="Admin.h" />
     <ClInclude Include="BonusDiscount.h" />
     <ClInclude Include="BrandDiscount.h" />
+    <ClInclude Include="Buyer.h" />
+    <ClInclude Include="Cart.h" />
     <ClInclude Include="Discount.h" />
     <ClInclude Include="Fragrance.h" />
     <ClInclude Include="Purchase.h" />

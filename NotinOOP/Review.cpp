@@ -47,6 +47,12 @@ std::string Review::toString() const
 		fragranceName + "|" + std::to_string(rating) + "|" + comment;
 }
 
+void Review::show() const {
+	std::cout << " [Review #" << reviewId << "] "
+		<< rating << "/5  \"" << comment
+		<< "\"  (user #" << userId << ")\n";
+}
+
 std::string Review::save() const
 {
 	std::ostringstream oss;

@@ -13,7 +13,7 @@ bool Admin::isAdmin() const
 { 
     return true; 
 }
-std::string Admin::getType() const
+std::string Admin::getRole() const
 { 
     return "ADMIN"; 
 }

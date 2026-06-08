@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <iostream>
 
 class Review
 {
@@ -24,5 +25,6 @@ public:
 
 	std::string save() const;
 
+	void show() const;
 };
 

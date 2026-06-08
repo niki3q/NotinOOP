@@ -1,21 +1,78 @@
 // NotinOOP.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 #include "Admin.h"
+#include "Buyer.h"
+#include "Fragrance.h"
 #include <iostream>
 
 int main()
 {
-    Admin adminUser("admin1", "super_secret_fmi");
+    try {
+        Buyer b("ivan", "1234");
+        b.addToBalance(200);
+        std::cout << "Balance: " << b.getBalance() << "\n";
 
-    std::cout << "User type: " << adminUser.getType() << "\n";
+   
+        Fragrance* f1 = new Fragrance(
+            "Sauvage",
+            Brand::DIOR,                
+            120.0,
+            FragranceFamily::WOODY,     
+            5
+        );
 
-    if (adminUser.isAdmin()) {
-        std::cout << "Access Granted: Welcome to the Admin Panel, " << adminUser.getUsername() << "!\n\n";
+        Fragrance* f2 = new Fragrance(
+            "Perf2",
+            Brand::GUESS,
+            150.0,
+            FragranceFamily::FLORAL,
+            3
+        );
+
+        b.addToCart(f1);
+        b.addToCart(f2);
+
+        std::cout << "\n--- CART ---\n";
+        b.viewCart();
+
+        b.addToWishlist("Sauvage");
+        b.addToWishlist("Perf2");
+
+        std::cout << "\n--- WISHLIST ---\n";
+        for (const auto& w : b.getWishlist()) {
+            std::cout << w << "\n";
+        }
+
+        b.removeFromCart("Sauvage");
+
+        std::cout << "\n--- CART AFTER REMOVE ---\n";
+        b.viewCart();
+
+        std::cout << "\nReducing quantity...\n";
+        f2->reduceQuantity();
+        std::cout << "Quantity left: " << f2->getQuantity() << "\n";
+
+        try {
+            std::cout << "Rating: " << f2->getRating() << "\n";
+        }
+        catch (const std::exception& e) {
+            std::cout << "Expected error: " << e.what() << "\n";
+        }
+
+        if (b.deductBalance(50)) {
+            std::cout << "Payment OK\n";
+        }
+        std::cout << "Balance now: " << b.getBalance() << "\n";
+
+        std::cout << "\n--- HELP ---\n";
+        b.showHelp();
+
+        delete f1;
+        delete f2;
     }
-
-    adminUser.showHelp();
-
-    return 0;
+    catch (const std::exception& e) {
+        std::cout << "ERROR: " << e.what() << "\n";
+    }
 
 }
 

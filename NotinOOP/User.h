@@ -28,8 +28,7 @@ public:
 	void setBlocked(bool block);
 
 	virtual bool isAdmin() const;
-
-	virtual std::string getType() const;
+	virtual std::string getRole() const;
 
 	virtual void showHelp() const = 0;
 

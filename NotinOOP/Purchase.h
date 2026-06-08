@@ -34,5 +34,6 @@ public:
 	static void setNextId(int id);
 	static int getNextId();
 
+	void show() const;
 };
 

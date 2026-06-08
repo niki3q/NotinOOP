@@ -42,7 +42,7 @@ bool User::isAdmin() const
     return false;
 }
 
-std::string User::getType() const 
+std::string User::getRole() const 
 { 
     return "USER";
 }
