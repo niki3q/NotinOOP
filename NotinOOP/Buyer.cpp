@@ -19,25 +19,28 @@ Buyer::~Buyer() {
 
 void Buyer::showHelp() const {
     std::cout << "  Buyer commands:\n"
-        << " add-to-balance \n"
-        << " add-to-cart\n"
-        << " remove-from-cart \n"
+        << " add-to-balance <amount>\n"
+        << " add-to-cart <name>\n"
+        << " remove-from-cart <name>\n"
         << " view-cart\n"
-        << " add-to-wishlist \n"
-        << " remove-from-wishlist \n"
+        << " add-to-wishlist <name>\n"
+        << " remove-from-wishlist <name>\n"
         << " recommend\n"
         << " checkout\n"
-        << " cancel\n"
+        << " cancel <purchase-id>\n"
         << " view-bought\n"
         << " view-purchases\n"
-        << " make-review \n"
+        << " make-review <fragrance-name> <rating> <comment>\n"
         << " view-discounts\n"
         << " list-fragrances\n"
         << " logout\n"
         << " help\n";
 }
 
-void Buyer::addToBalance(double amount) { balance += amount; }
+void Buyer::addToBalance(double amount) 
+{ 
+    if (amount > 0) balance += amount; 
+}
 
 bool Buyer::deductBalance(double amount) {
     if (balance < amount) return false;
@@ -52,11 +55,10 @@ bool Buyer::addToWishlist(const std::string& name) {
 }
 
 bool Buyer::removeFromWishlist(const std::string& name) {
-    for (size_t i = 0; i < wishlist.size(); ++i) {
-        if (wishlist[i] == name) {
-            wishlist.erase(wishlist.begin() + i);
-            return true;
-        }
+    auto it = std::find(wishlist.begin(), wishlist.end(), name);
+    if (it != wishlist.end()) {
+        wishlist.erase(it);
+        return true;
     }
     return false;
 }
@@ -74,7 +76,8 @@ bool Buyer::addToCart(Fragrance* f) {
     return true;
 }
 
-bool Buyer::removeFromCart(const std::string& name) {
+bool Buyer::removeFromCart(const std::string& name) 
+{
     return cart.removeItem(name);
 }
 
@@ -82,45 +85,73 @@ void Buyer::viewCart() const {
     cart.show();
 }
 
-void Buyer::addPurchase(const Purchase& p) { purchases.push_back(p); }
+void Buyer::addPurchase(const Purchase& p) 
+{ 
+    purchases.push_back(p); 
+}
 
-void Buyer::viewBought() const {
+void Buyer::viewBought() const 
+{
     bool any = false;
     for (const auto& p : purchases) {
-        if (p.getStatus() == PurchaseStatus::DELIVERED) { p.show(); any = true; }
+        if (p.getStatus() == PurchaseStatus::DELIVERED) 
+        { 
+            p.show(); any = true; 
+        }
     }
     if (!any) std::cout << " No delivered purchases.\n";
 }
 
-void Buyer::viewPurchases() const {
-    if (purchases.empty()) { std::cout << " No purchases yet.\n"; return; }
+void Buyer::viewPurchases() const 
+{
+    if (purchases.empty()) 
+    { 
+        std::cout << " No purchases yet.\n"; return; 
+    }
     for (const auto& p : purchases) p.show();
 }
 
-void Buyer::addDiscount(Discount* d) { discounts.push_back(d); }
+void Buyer::addDiscount(Discount* d) 
+{ 
+    if (d) discounts.push_back(d);
+}
 
-Discount* Buyer::pickBestDiscount() const {
-    if (discounts.empty()) return nullptr;
+Discount* Buyer::pickBestDiscount() const 
+{
+    if (discounts.empty() || cart.isEmpty()) return nullptr;
     const auto& items = cart.getItems();
     double normalTotal = cart.getTotal();
 
     Discount* best = nullptr;
-    double    saved = 0;
+    double bestSaving = 0;
+
     for (auto* d : discounts) {
-        double after = d->apply(items);
+        double after = d->apply(cart.getItems());
         double saving = normalTotal - after;
-        if (saving > saved) { saved = saving; best = d; }
+        if (saving > bestSaving) {
+            bestSaving = saving;
+            best = d;
+        }
     }
     return best;  
 }
 
-void Buyer::removeDiscount(Discount* d) {
+void Buyer::removeDiscount(Discount* d) 
+{
     for (size_t i = 0; i < discounts.size(); ++i) {
         if (discounts[i] == d) {
             delete discounts[i];
             discounts.erase(discounts.begin() + i);
             return;
         }
+    }
+}
+
+void Buyer::incrementRemovedReviews()
+{
+    removedReviews++;
+    if (removedReviews >= 7) {
+        setBlocked(true);
     }
 }
 

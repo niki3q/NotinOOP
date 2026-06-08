@@ -23,14 +23,11 @@ public:
 
 	int getId() const;
 	double getPercent() const;
-
 	virtual double apply(const std::vector<Fragrance*>& items) const;
-
 	virtual double savings(const std::vector<Fragrance*>& items) const;
-
 	virtual DiscountType getType() const;
-
 	virtual std::string  describe() const;
+
 	static int getNextId(); 
 };
 

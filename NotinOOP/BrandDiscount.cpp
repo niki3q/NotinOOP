@@ -10,9 +10,10 @@ BrandDiscount::BrandDiscount(int id, double percent, Brand brand)
 
 double BrandDiscount::apply(const std::vector<Fragrance*>& items) const {
     double total = 0;
+    double factor = 1.0 - (discountPercentage / 100.0);
     for (auto* f : items) {
         if (f->getBrand() == brand)
-            total += f->getPrice() * (1.0 - discountPercentage / 100.0);
+            total += f->getPrice() * factor;
         else
             total += f->getPrice();
     }

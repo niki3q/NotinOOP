@@ -26,13 +26,13 @@ public:
     Buyer& operator=(Buyer&&) = default;
     ~Buyer() override;
 
-  
+
     std::string getRole() const override { return "BUYER"; }
     void showHelp() const override;
 
     double getBalance() const { return balance; }
-    void   addToBalance(double amount);
-    bool   deductBalance(double amount);   
+    void addToBalance(double amount);
+    bool deductBalance(double amount);   
 
     bool addToWishlist(const std::string& name);          
     bool removeFromWishlist(const std::string& name);    
@@ -49,7 +49,7 @@ public:
     void addPurchase(const Purchase& p);
     std::vector<Purchase>& getPurchases() { return purchases; }
     const std::vector<Purchase>& getPurchases() const { return purchases; }
-    void viewBought()    const;   
+    void viewBought() const;   
     void viewPurchases() const;   
 
     void addDiscount(Discount* d);   // takes ownership
@@ -60,8 +60,8 @@ public:
 
     void removeDiscount(Discount* d);
 
-    int  getRemovedReviews()    const { return removedReviews; }
-    void incrementRemovedReviews() { ++removedReviews; }
+    int getRemovedReviews()const override { return removedReviews; }
+    void incrementRemovedReviews();
 
   
 };

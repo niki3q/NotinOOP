@@ -2,77 +2,60 @@
 //
 #include "Admin.h"
 #include "Buyer.h"
+#include "Cart.h"
 #include "Fragrance.h"
+#include "BonusDiscount.h"
+#include "BrandDiscount.h"
 #include <iostream>
 
 int main()
 {
-    try {
-        Buyer b("ivan", "1234");
-        b.addToBalance(200);
-        std::cout << "Balance: " << b.getBalance() << "\n";
+    Admin admin("admin_user", "admin123");
+    Buyer buyer("buyer_petko", "petko123petko");
 
-   
-        Fragrance* f1 = new Fragrance(
-            "Sauvage",
-            Brand::DIOR,                
-            120.0,
-            FragranceFamily::WOODY,     
-            5
-        );
+    Fragrance f1("XERJOFF", Brand::XERJOFF, 100.0, FragranceFamily::WOODY, 5);
+    Fragrance f2("LATAFFA", Brand::LATAFFA, 120.0, FragranceFamily::ORIENTAL, 2);
 
-        Fragrance* f2 = new Fragrance(
-            "Perf2",
-            Brand::GUESS,
-            150.0,
-            FragranceFamily::FLORAL,
-            3
-        );
+    buyer.addToBalance(300.0);
+    buyer.addToCart(&f1);
+    buyer.addToCart(&f2);
 
-        b.addToCart(f1);
-        b.addToCart(f2);
+    std::cout << "Initial total: $" << buyer.getCart().getTotal() << "\n";
 
-        std::cout << "\n--- CART ---\n";
-        b.viewCart();
+    Discount* d1 = new BrandDiscount(10.0, Brand::XERJOFF);
+    Discount* d2 = new BonusDiscount(5.0, 15.0);
 
-        b.addToWishlist("Sauvage");
-        b.addToWishlist("Perf2");
+    buyer.addDiscount(d1);
+    buyer.addDiscount(d2);
 
-        std::cout << "\n--- WISHLIST ---\n";
-        for (const auto& w : b.getWishlist()) {
-            std::cout << w << "\n";
-        }
+    Discount* best = buyer.pickBestDiscount();
+    std::cout << "Selected discount: " << best->describe() << "\n";
 
-        b.removeFromCart("Sauvage");
+    double finalPrice = best->apply(buyer.getCart().getItems());
+    std::cout << "Final checkout price: $" << finalPrice << "\n";
 
-        std::cout << "\n--- CART AFTER REMOVE ---\n";
-        b.viewCart();
+    buyer.deductBalance(finalPrice);
+    buyer.removeDiscount(best);
 
-        std::cout << "\nReducing quantity...\n";
-        f2->reduceQuantity();
-        std::cout << "Quantity left: " << f2->getQuantity() << "\n";
+    std::cout << "Remaining vouchers: " << buyer.getDiscounts().size() << "\n";
 
-        try {
-            std::cout << "Rating: " << f2->getRating() << "\n";
-        }
-        catch (const std::exception& e) {
-            std::cout << "Expected error: " << e.what() << "\n";
-        }
+    buyer.getCart().clear();
+    std::cout << "Checkout verified.\n\n";
 
-        if (b.deductBalance(50)) {
-            std::cout << "Payment OK\n";
-        }
-        std::cout << "Balance now: " << b.getBalance() << "\n";
+    std::cout << "Simulating review moderation...\n";
 
-        std::cout << "\n--- HELP ---\n";
-        b.showHelp();
-
-        delete f1;
-        delete f2;
+    for (int i = 0; i < 6; ++i) {
+        buyer.incrementRemovedReviews();
     }
-    catch (const std::exception& e) {
-        std::cout << "ERROR: " << e.what() << "\n";
-    }
+
+    buyer.incrementRemovedReviews();
+
+    std::cout << "Removed reviews count: " << buyer.getRemovedReviews() << "\n";
+    std::cout << "Account blocked status: " << (buyer.isBlocked() ? "TRUE" : "FALSE") << "\n";
+
+    std::cout << "Automated restriction verified.\n\n";
+
+    return 0;
 
 }
 

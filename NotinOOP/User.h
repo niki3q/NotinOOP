@@ -31,6 +31,7 @@ public:
 	virtual std::string getRole() const;
 
 	virtual void showHelp() const = 0;
+	virtual int getRemovedReviews() const { return 0; }
 
 	static void setNextId(int id);
 	static int  getNextId();

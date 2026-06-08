@@ -21,11 +21,10 @@ std::string Admin::getRole() const
 void Admin::showHelp() const 
 {
     std::cout << "  Available commands (Admin):\n"
-        << "block-user\n"
-        << "create-fragrance \n"
-        << "add-quantity \n"
-        << "deliver\n"
-        << "remove-review\n"
-        << "logout\n"
-        << "help\n";
+        << "  block-user <username>\n"
+        << "  create-fragrance <name> <brand> <price> <family>\n"
+        << "  add-quantity <fragrance-name> <quantity>\n"
+        << "  deliver <purchase-id>\n"
+        << "  remove-review <fragrance-name> <review-id>\n"
+        << "  logout\n  help\n";
 }

@@ -3,7 +3,7 @@
 #include <iostream>
 
 void Cart::addItem(Fragrance* f) {
-    items.push_back(f);
+    if (f) items.push_back(f);
 }
 
 bool Cart::removeItem(const std::string& name) {
