@@ -2,13 +2,8 @@
 #include <string>
 #include <vector>
 #include "Fragrance.h"
+#include "Enums.h"
 
-enum class DiscountType 
-{
-	BASE,
-	BONUS,
-	BRAND
-};
 class Discount
 {
 protected:
@@ -29,5 +24,6 @@ public:
 	virtual std::string  describe() const;
 
 	static int getNextId(); 
+	static void setNextId(int id);
 };
 

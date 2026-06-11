@@ -20,18 +20,17 @@ Buyer::~Buyer() {
 void Buyer::showHelp() const {
     std::cout << "  Buyer commands:\n"
         << " add-to-balance <amount>\n"
-        << " add-to-cart <name>\n"
-        << " remove-from-cart <name>\n"
+        << " add-to-cart <fragrance-name>\n"
+        << " remove-from-cart <fragrance-name>\n"
         << " view-cart\n"
-        << " add-to-wishlist <name>\n"
-        << " remove-from-wishlist <name>\n"
+        << " add-to-wishlist <fragrance-name>\n"
+        << " remove-from-wishlist <fragrance-name>\n"
         << " recommend\n"
         << " checkout\n"
         << " cancel <purchase-id>\n"
         << " view-bought\n"
         << " view-purchases\n"
         << " make-review <fragrance-name> <rating> <comment>\n"
-        << " view-discounts\n"
         << " list-fragrances\n"
         << " logout\n"
         << " help\n";
@@ -119,21 +118,14 @@ void Buyer::addDiscount(Discount* d)
 Discount* Buyer::pickBestDiscount() const 
 {
     if (discounts.empty() || cart.isEmpty()) return nullptr;
-    const auto& items = cart.getItems();
     double normalTotal = cart.getTotal();
-
     Discount* best = nullptr;
     double bestSaving = 0;
-
     for (auto* d : discounts) {
-        double after = d->apply(cart.getItems());
-        double saving = normalTotal - after;
-        if (saving > bestSaving) {
-            bestSaving = saving;
-            best = d;
-        }
+        double saving = normalTotal - d->apply(cart.getItems());
+        if (saving > bestSaving) { bestSaving = saving; best = d; }
     }
-    return best;  
+    return best;
 }
 
 void Buyer::removeDiscount(Discount* d) 

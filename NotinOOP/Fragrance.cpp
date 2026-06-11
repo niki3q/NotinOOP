@@ -13,6 +13,11 @@ Fragrance::Fragrance(const std::string& fragranceName, Brand brand, double price
 :fragranceId(nextId++), fragranceName(fragranceName), brand(brand), price(price),
 family(family), quantity(quantity){}
 
+Fragrance::Fragrance(int id, const std::string& name, Brand brand, double price, FragranceFamily family, int quantity)
+	: fragranceId(id), fragranceName(name), brand(brand), price(price), family(family), quantity(quantity)
+{
+	if (id >= nextId) nextId = id + 1;
+}
 
 int Fragrance::getFragranceId() const {
 	return fragranceId;
@@ -121,6 +126,11 @@ int Fragrance::countReviewsByUser(int userId) const
 	return count;
 }
 
-static void resetCounter(int value) {
-
+void Fragrance::show() const {
+	std::cout << "  [#" << fragranceId << "] " << fragranceName
+		<< " | " << brandToString(brand)
+		<< " | " << familyToString(family)
+		<< " | $" << price
+		<< " | qty:" << quantity
+		<< " | rating:" << getRating() << "\n";
 }

@@ -2,12 +2,8 @@
 #include <string>
 #include <vector>
 #include "Fragrance.h"
+#include "Enums.h"
 
-enum class PurchaseStatus {
-	PENDING,
-	DELIVERED,
-	CANCELED
-};
 
 class Purchase
 {
@@ -22,6 +18,7 @@ private:
 public:
 	Purchase();
 	Purchase(int userId, const std::vector<Fragrance*>& items, double price);
+	Purchase(int id, int userId, PurchaseStatus status, double totalPrice, const std::vector<std::string>& names);
 
 	int getPurchaseId() const;
 	int getUserId() const;

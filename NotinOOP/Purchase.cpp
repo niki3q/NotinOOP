@@ -9,8 +9,17 @@ Purchase::Purchase()
 }
 
 Purchase::Purchase(int userId, const std::vector<Fragrance*>& items, double price)
-    : purchaseId(nextId++), userId(userId), totalPrice(price), status(PurchaseStatus::PENDING) {
+    : purchaseId(nextId++), userId(userId), totalPrice(price), status(PurchaseStatus::PENDING) 
+{
     for (auto* f : items) fragranceNames.push_back(f->getName());
+}
+
+Purchase::Purchase(int id, int userId, PurchaseStatus status,
+    double totalPrice, const std::vector<std::string>& names)
+    : purchaseId(id), userId(userId), fragranceNames(names),
+    status(status), totalPrice(totalPrice)
+{
+    if (id >= nextId) nextId = id + 1;
 }
 
 
@@ -50,8 +59,8 @@ int Purchase::getNextId()
 }
 
 void  Purchase::show() const {
-    std::cout << "  Purchase #" << userId
-        << "[" << purchaseId << "]"
+    std::cout << "  Purchase #" << purchaseId
+        << "[user: " << userId << "]"
         << " total:$ " << totalPrice << "\n"
         << " items: ";
     for (size_t i = 0; i < fragranceNames.size(); ++i) {

@@ -14,7 +14,7 @@ public:
 
 	double apply(const std::vector<Fragrance*>& items) const override;
 	double savings(const std::vector<Fragrance*>& items) const override;
-	DiscountType getType()    const override;
-	std::string  describe()   const override;
+	DiscountType getType() const override;
+	std::string  describe() const override;
 };
 

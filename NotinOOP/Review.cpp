@@ -5,15 +5,23 @@
 
 int Review::nextId = 1;
 
-Review::Review(int rId, int uId, const std::string& fragName, const std::string& comm, double rate)
-	:reviewId(nextId++), userId(uId), fragranceName(fragName), comment(comm), rating(rate)
+Review::Review(int userId, const std::string& fragranceName,
+	double rating, const std::string& comment)
+	: reviewId(nextId++), userId(userId),
+	fragranceName(fragranceName), comment(comment), rating(rating)
 {
-	if (rating < 0 || rating > 5) {
-		throw std::invalid_argument("Rating should be a number between 0 and 5");
-	}
-	if (comment.size() > 1000) {
-		throw std::invalid_argument("The comment can't exceed 1000 characters");
-	}
+	if (rating < 0 || rating > 5)
+		throw std::invalid_argument("Rating must be between 0 and 5.");
+	if (comment.size() > 1000)
+		throw std::invalid_argument("Comment cannot exceed 1000 characters.");
+}
+
+Review::Review(int id, int userId, const std::string& fragranceName,
+	double rating, const std::string& comment)
+	: reviewId(id), userId(userId),
+	fragranceName(fragranceName), comment(comment), rating(rating)
+{
+	if (id >= nextId) nextId = id + 1;
 }
 
 int Review::getReviewId() const
@@ -55,8 +63,9 @@ void Review::show() const {
 
 std::string Review::save() const
 {
+	// format:  id|userId|fragranceName|rating|comment
 	std::ostringstream oss;
-	oss << reviewId << "|" << fragranceName << "|"
-		<< userId << "|" << rating << "|" << comment;
+	oss << reviewId << "|" << userId << "|"
+		<< fragranceName << "|" << rating << "|" << comment;
 	return oss.str();
 }

@@ -13,7 +13,10 @@ private:
 	double rating;
 
 public:
-	Review(int rId, int uId, const std::string& fragName, const std::string& comm, double rate);
+	Review(int userId, const std::string& fragranceName,
+		double rating, const std::string& comment);
+	Review(int id, int userId, const std::string& fragranceName,
+		double rating, const std::string& comment);
 
 	int getReviewId() const;
 	int getUserId() const;
@@ -23,8 +26,10 @@ public:
 
 	std::string toString() const;
 
+	void show() const;
 	std::string save() const;
 
-	void show() const;
+	static void setNextId(int id) { if (id >= nextId) nextId = id + 1; }
+	static int  getNextId() { return nextId; }
 };
 

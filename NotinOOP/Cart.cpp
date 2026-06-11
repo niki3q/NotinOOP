@@ -20,6 +20,14 @@ void Cart::clear() {
     items.clear();
 }
 
+bool Cart::isEmpty() const { 
+    return items.empty(); 
+}
+
+const std::vector<Fragrance*>& Cart::getItems() const {
+    return items; 
+}
+
 double Cart::getTotal() const {
     double total = 0;
     for (auto* f : items) total += f->getPrice();
@@ -32,7 +40,6 @@ void Cart::show() const {
         return;
     }
     for (auto* f : items)
-        std::cout << " - " << f->getName()
-        << " $" << f->getPrice() << "\n";
+        std::cout << " - " << f->getName() << " $" << f->getPrice() << "\n";
     std::cout << " Total: $" << getTotal() << "\n";
 }

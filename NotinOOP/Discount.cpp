@@ -47,3 +47,8 @@ int Discount::getNextId()
 {
 	return nextId;
 }
+
+void Discount::setNextId(int id)
+{ 
+    if (id >= nextId) nextId = id + 1; 
+}

@@ -47,7 +47,6 @@ std::string User::getRole() const
     return "USER";
 }
 
-
 void User::setNextId(int id) 
 { 
     nextId = id; 
