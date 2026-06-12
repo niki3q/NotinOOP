@@ -125,32 +125,38 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Admin.cpp" />
+    <ClCompile Include="AdminCommands.cpp" />
     <ClCompile Include="BonusDiscount.cpp" />
     <ClCompile Include="BrandDiscount.cpp" />
     <ClCompile Include="Buyer.cpp" />
     <ClCompile Include="BuyerCommands.cpp" />
     <ClCompile Include="Cart.cpp" />
-    <ClCompile Include="Database.cpp" />
+    <ClCompile Include="CommandRouter.cpp" />
     <ClCompile Include="Discount.cpp" />
     <ClCompile Include="Fragrance.cpp" />
+    <ClCompile Include="Load.cpp" />
     <ClCompile Include="NotinOOP.cpp" />
     <ClCompile Include="Purchase.cpp" />
     <ClCompile Include="Review.cpp" />
+    <ClCompile Include="Save.cpp" />
     <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Admin.h" />
+    <ClInclude Include="AdminCommands.h" />
     <ClInclude Include="BonusDiscount.h" />
     <ClInclude Include="BrandDiscount.h" />
     <ClInclude Include="Buyer.h" />
     <ClInclude Include="BuyerCommands.h" />
     <ClInclude Include="Cart.h" />
-    <ClInclude Include="Database.h" />
+    <ClInclude Include="CommandRouter.h" />
     <ClInclude Include="Discount.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="Fragrance.h" />
+    <ClInclude Include="Load.h" />
     <ClInclude Include="Purchase.h" />
     <ClInclude Include="Review.h" />
+    <ClInclude Include="Save.h" />
     <ClInclude Include="User.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -15,9 +15,9 @@ public:
     void clear();
 
    
-    bool isEmpty() const { return items.empty(); }
+    bool isEmpty() const;
     double getTotal()  const;
-    const std::vector<Fragrance*>& getItems() const { return items; }
+    const std::vector<Fragrance*>& getItems() const;
 
     void show() const;
 };

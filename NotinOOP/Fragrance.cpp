@@ -57,12 +57,7 @@ bool Fragrance::reduceQuantity() {
 	return true;
 }
 double Fragrance::getRating() const {
-	if (reviews.empty()) {
-		throw std::runtime_error("No reviews available for fragrance '" +
-			fragranceName + "' (ID: " +
-			std::to_string(fragranceId) + ")");
-	}
-
+	if (reviews.empty()) return 0.0;
 	double sum = 0.0;
 	for (const auto& r : reviews) {
 		sum += r.getRating();
