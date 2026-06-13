@@ -1,30 +1,37 @@
-#include "Admin.h"
+﻿#include "Admin.h"
 
-Admin:: Admin() : User() {}
+Admin::Admin() : User() {}
 
 Admin::Admin(const std::string& username, const std::string& password)
-    : User(username, password) 
+    : User(username, password)
 {}
 Admin::Admin(int id, const std::string& username, const std::string& password, bool blocked)
-    : User(id, username, password, blocked) 
+    : User(id, username, password, blocked)
 {}
 
-bool Admin::isAdmin() const  
-{ 
-    return true; 
+bool Admin::isAdmin() const
+{
+    return true;
 }
 std::string Admin::getRole() const
-{ 
-    return "ADMIN"; 
+{
+    return "ADMIN";
 }
 
-void Admin::showHelp() const 
+void Admin::showHelp() const
 {
-    std::cout << "  Available commands (Admin):\n"
-        << "  block-user <username>\n"
-        << "  create-fragrance <name> <brand> <price> <family>\n"
-        << "  add-quantity <fragrance-name> <quantity>\n"
-        << "  deliver <purchase-id>\n"
-        << "  remove-review <fragrance-name> <review-id>\n"
-        << "  logout\n  help\n";
+    std::cout << "\n"
+        << "  *-------------------------------------------------------------*\n"
+        << "  |                     Admin Commands                          |\n"
+        << "  |-------------------------------------------------------------|\n"
+        << "  | create-admin u p         | create a new admin account       |\n"
+        << "  | block-user <username>    | block & delete a user            |\n"
+        << "  | create-fragrance n b p f | new fragrance (name brand $ fam) |\n"
+        << "  | add-quantity <name> <n>  | add stock to a fragrance         |\n"
+        << "  | deliver <purchase-id>    | mark purchase as delivered       |\n"
+        << "  | remove-review <fid> <rid>| remove a review by ids           |\n"
+        << "  | list-fragrances          | show full catalogue              |\n"
+        << "  | logout                   | log out                          |\n"
+        << "  | help                     | show this menu                   |\n"
+        << "  *-------------------------------------------------------------*\n\n";
 }

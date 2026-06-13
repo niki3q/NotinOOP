@@ -15,15 +15,15 @@ CommandRouter::CommandRouter() : currentUser(nullptr) {
 
     if (!hasAdmin) {
         users.push_back(new Admin("admin", "admin1914"));
-        std::cout << "  [System] Default admin: admin / admin1914\n";
+        std::cout << "[System] Default admin: admin / admin1914\n";
     }
 
     if (fragrances.empty()) {
         fragrances.emplace_back("Sauvage", Brand::DIOR, 95.0, FragranceFamily::WOODY, 20);
-        fragrances.emplace_back("Acqua di Gio", Brand::ARMANI, 80.0, FragranceFamily::AQUATIC, 15);
-        fragrances.emplace_back("Black Orchid", Brand::GUCCI, 120.0, FragranceFamily::ORIENTAL, 10);
+        fragrances.emplace_back("Acqua-di-Gio", Brand::ARMANI, 80.0, FragranceFamily::AQUATIC, 15);
+        fragrances.emplace_back("Black-Orchid", Brand::GUCCI, 120.0, FragranceFamily::ORIENTAL, 10);
         fragrances.emplace_back("L'Homme", Brand::YSL, 90.0, FragranceFamily::WOODY, 12);
-        fragrances.emplace_back("Baccarat 540", Brand::XERJOFF, 300.0, FragranceFamily::FLORAL, 5);
+        fragrances.emplace_back("Baccarat-540", Brand::XERJOFF, 300.0, FragranceFamily::FLORAL, 5);
     }
 }
 
@@ -56,8 +56,7 @@ Buyer* CommandRouter::findBuyer(int userId) {
     return nullptr;
 }
 
-void CommandRouter::handleRegister(const std::string& username,
-    const std::string& password)
+void CommandRouter::handleRegister(const std::string& username, const std::string& password)
 {
     if (findUser(username)) {
         std::cout << "  Username '" << username << "' is already taken.\n";
@@ -67,8 +66,7 @@ void CommandRouter::handleRegister(const std::string& username,
     std::cout << "  Registered! You can now login.\n";
 }
 
-void CommandRouter::handleLogin(const std::string& username,
-    const std::string& password)
+void CommandRouter::handleLogin(const std::string& username, const std::string& password)
 {
     User* u = findUser(username);
     if (!u || u->getPassword() != password) {
@@ -90,12 +88,21 @@ void CommandRouter::handleLogout() {
 
 void CommandRouter::handleListFragrances() {
     if (fragrances.empty()) { std::cout << "  No fragrances in catalogue.\n"; return; }
+    std::cout << "\n";
+    std::cout << "  +----+----------------------+------------+-----------+--------+-------+--------+\n";
+    std::cout << "  | #  | Name                 | Brand      | Family    | Price  | Stock | Rating |\n";
+    std::cout << "  +----+----------------------+------------+-----------+--------+-------+--------+\n";
     for (Fragrance& f : fragrances) f.show();
+    std::cout << "  +----+----------------------+------------+-----------+--------+-------+--------+\n\n";
 }
 
 void CommandRouter::run() {
-    std::cout << "=== NotinOOP Fragrance Store ===\n";
-    std::cout << "Commands: register, login, list-fragrances, end\n";
+    std::cout << "()>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<()\n";
+    std::cout << "||                                  ||\n";
+    std::cout << "||     NotinOOP Fragrance Store     ||\n";
+    std::cout << "||                                  ||\n";
+    std::cout << "()>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<()\n";
+    std::cout << "Commands: register / login / list-fragrances / end \n";
 
     BuyerCommands buyerCmd(*this);
     AdminCommands adminCmd(*this);
@@ -130,24 +137,50 @@ void CommandRouter::run() {
 
         //buyer
         if (!currentUser->isAdmin()) {
-            if (cmd == "add-to-balance") { double a;      iss >> a;    buyerCmd.addToBalance(a); }
-            else if (cmd == "add-to-cart") { std::string n; iss >> n;    buyerCmd.addToCart(n); }
-            else if (cmd == "remove-from-cart") { std::string n; iss >> n;    buyerCmd.removeFromCart(n); }
+            if (cmd == "add-to-balance") { double a; iss >> a; buyerCmd.addToBalance(a); }
+            else if (cmd == "add-to-cart") {
+                std::string name;
+                std::getline(iss >> std::ws, name);
+                buyerCmd.addToCart(name);
+            }
+            else if (cmd == "remove-from-cart") {
+                std::string name;
+                std::getline(iss >> std::ws, name);
+                buyerCmd.removeFromCart(name);
+            }
             else if (cmd == "view-cart") { buyerCmd.viewCart(); }
-            else if (cmd == "add-to-wishlist") { std::string n; iss >> n;    buyerCmd.addToWishlist(n); }
-            else if (cmd == "remove-from-wishlist") { std::string n; iss >> n;    buyerCmd.removeFromWishlist(n); }
+            else if (cmd == "add-to-wishlist") {
+                std::string name;
+                std::getline(iss >> std::ws, name);
+                buyerCmd.addToWishlist(name);
+            }
+            else if (cmd == "remove-from-wishlist") {
+                std::string name;
+                std::getline(iss >> std::ws, name);
+                buyerCmd.removeFromWishlist(name);
+            }
             else if (cmd == "recommend") { buyerCmd.recommend(); }
             else if (cmd == "checkout") { buyerCmd.checkout(); }
-            else if (cmd == "cancel") { int id;        iss >> id;   buyerCmd.cancel(id); }
+            else if (cmd == "cancel") { int id; iss >> id; buyerCmd.cancel(id); }
             else if (cmd == "view-bought") { buyerCmd.viewBought(); }
             else if (cmd == "view-purchases") { buyerCmd.viewPurchases(); }
             else if (cmd == "make-review") {
-                std::string name; double rating;
-                iss >> name >> rating;
+                std::string word, fragName;
+                double rating = -1;
                 std::string comment;
-                std::getline(iss, comment);
-                if (!comment.empty() && comment[0] == ' ') comment = comment.substr(1);
-                buyerCmd.makeReview(name, rating, comment);
+                while (iss >> word) {
+                    try {
+                        rating = std::stod(word);
+                        std::getline(iss >> std::ws, comment);
+                        break;
+                    }
+                    catch (...) {
+                        if (!fragName.empty()) fragName += " ";
+                        fragName += word;
+                    }
+                }
+                if (rating < 0) std::cout << "  Usage: make-review <name> <rating> <comment>\n";
+                else buyerCmd.makeReview(fragName, rating, comment);
             }
             else { std::cout << "  Unknown command. Type 'help'.\n"; }
             continue;
@@ -155,15 +188,15 @@ void CommandRouter::run() {
 
         //admin
         if (cmd == "create-admin") { std::string u, p; iss >> u >> p; adminCmd.createAdmin(u, p); }
-        else if (cmd == "block-user") { std::string u;          iss >> u;        adminCmd.blockUser(u); }
+        else if (cmd == "block-user") { std::string u; iss >> u; adminCmd.blockUser(u); }
         else if (cmd == "create-fragrance") {
             std::string name, brand, family; double price;
             iss >> name >> brand >> price >> family;
             adminCmd.createFragrance(name, brand, price, family);
         }
-        else if (cmd == "add-quantity") { std::string n; int q;   iss >> n >> q;   adminCmd.addQuantity(n, q); }
-        else if (cmd == "deliver") { int id;                  iss >> id;       adminCmd.deliver(id); }
-        else if (cmd == "remove-review") { int fid, rid;            iss >> fid >> rid; adminCmd.removeReview(fid, rid); }
+        else if (cmd == "add-quantity") { std::string n; int q; iss >> n >> q; adminCmd.addQuantity(n, q); }
+        else if (cmd == "deliver") { int id; iss >> id; adminCmd.deliver(id); }
+        else if (cmd == "remove-review") { int fid, rid; iss >> fid >> rid; adminCmd.removeReview(fid, rid); }
         else { std::cout << "  Unknown command. Type 'help'.\n"; }
     }
 }

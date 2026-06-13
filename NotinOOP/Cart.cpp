@@ -1,6 +1,7 @@
 #include "Cart.h"
 #include "Fragrance.h"
 #include <iostream>
+#include <iomanip>
 
 void Cart::addItem(Fragrance* f) {
     if (f) items.push_back(f);
@@ -39,7 +40,17 @@ void Cart::show() const {
         std::cout << "  (cart is empty)\n";
         return;
     }
-    for (auto* f : items)
-        std::cout << " - " << f->getName() << " $" << f->getPrice() << "\n";
-    std::cout << " Total: $" << getTotal() << "\n";
+
+    std::cout << "\n";
+    std::cout << "  +------------------------------+----------+\n";
+    std::cout << "  | Fragrance                    |    Price |\n";
+    std::cout << "  +------------------------------+----------+\n";
+    for (auto* f : items) {
+        std::cout << "  | " << std::left << std::setw(28) << f->getName()
+            << " | $" << std::right << std::setw(7) << f->getPrice() << " |\n";
+    }
+    std::cout << "  +------------------------------+----------+\n";
+    std::cout << "  | " << std::left << std::setw(28) << "Total"
+        << " | $" << std::right << std::setw(7) << getTotal() << " |\n";
+    std::cout << "  +------------------------------+----------+\n\n";
 }

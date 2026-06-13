@@ -1,5 +1,6 @@
 #include "Purchase.h"
 #include <iostream>
+#include <iomanip>
 
 int Purchase::nextId = 1;
 
@@ -59,14 +60,23 @@ int Purchase::getNextId()
 }
 
 void  Purchase::show() const {
-    std::cout << "  Purchase #" << purchaseId
-        << "[user: " << userId << "]"
-        << " total:$ " << totalPrice << "\n"
-        << " items: ";
+    std::string statusDisplay;
+    if (status == PurchaseStatus::DELIVERED) statusDisplay = "[DELIVERED]";
+    else if (status == PurchaseStatus::CANCELED)  statusDisplay = "[CANCELED] ";
+    else                                           statusDisplay = "[PENDING]  ";
+
+    std::cout << "\n";
+    std::cout << "  +-----------------------------------------+\n";
+    std::cout << "  | Purchase #" << std::left << std::setw(4) << purchaseId
+        << "  " << statusDisplay
+        << "  $" << std::right << std::setw(8) << std::fixed
+        << std::setprecision(2) << totalPrice << " |\n";
+    std::cout << "  | Items: ";
     for (size_t i = 0; i < fragranceNames.size(); ++i) {
+        if (i > 0) std::cout << ", ";
         std::cout << fragranceNames[i];
-        if (i + 1 < fragranceNames.size()) std::cout << ", ";
     }
     std::cout << "\n";
+    std::cout << "  +-----------------------------------------+\n";
 }
 

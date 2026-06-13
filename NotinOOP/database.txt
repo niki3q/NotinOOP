@@ -1,6 +1,5 @@
 USERS
-ADMIN|1|admin|admin123|0
-BUYER|2|||0|0|0||
+ADMIN|1|admin|admin1914|0
 FRAGRANCES
 1|Sauvage|DIOR|WOODY|95|20
 2|Acqua di Gio|ARMANI|AQUATIC|80|15

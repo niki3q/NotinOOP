@@ -1,4 +1,4 @@
-#include "Buyer.h"
+﻿#include "Buyer.h"
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
@@ -18,27 +18,31 @@ Buyer::~Buyer() {
 }
 
 void Buyer::showHelp() const {
-    std::cout << "  Buyer commands:\n"
-        << " add-to-balance <amount>\n"
-        << " add-to-cart <fragrance-name>\n"
-        << " remove-from-cart <fragrance-name>\n"
-        << " view-cart\n"
-        << " add-to-wishlist <fragrance-name>\n"
-        << " remove-from-wishlist <fragrance-name>\n"
-        << " recommend\n"
-        << " checkout\n"
-        << " cancel <purchase-id>\n"
-        << " view-bought\n"
-        << " view-purchases\n"
-        << " make-review <fragrance-name> <rating> <comment>\n"
-        << " list-fragrances\n"
-        << " logout\n"
-        << " help\n";
+    std::cout << "\n"
+        << "  *-------------------------------------------------------------*\n"
+        << "  |                     Buyer Commands                          |\n"
+        << "  |-------------------------------------------------------------|\n"
+        << "  | add-to-balance <amount>  | top up your balance              |\n"
+        << "  | add-to-cart <name>       | add fragrance to cart            |\n"
+        << "  | remove-from-cart <name>  | remove from cart                 |\n"
+        << "  | view-cart                | show current cart                |\n"
+        << "  | add-to-wishlist <name>   | save to wishlist                 |\n"
+        << "  | remove-from-wishlist <n> | remove from wishlist             |\n"
+        << "  | recommend                | get recommendations              |\n"
+        << "  | checkout                 | place order (best voucher auto)  |\n"
+        << "  | cancel <purchase-id>     | cancel a PENDING order           |\n"
+        << "  | view-purchases           | show all your orders             |\n"
+        << "  | view-bought              | show delivered orders only       |\n"
+        << "  | make-review <n> <r> <c>  | review a fragrance (0-5 stars)   |\n"
+        << "  | list-fragrances          | browse the catalogue             |\n"
+        << "  | logout                   | leave account                    |\n"
+        << "  | help                     | show this menu                   |\n"
+        << "  *-------------------------------------------------------------*\n\n";
 }
 
-void Buyer::addToBalance(double amount) 
-{ 
-    if (amount > 0) balance += amount; 
+void Buyer::addToBalance(double amount)
+{
+    if (amount > 0) balance += amount;
 }
 
 bool Buyer::deductBalance(double amount) {
@@ -75,7 +79,7 @@ bool Buyer::addToCart(Fragrance* f) {
     return true;
 }
 
-bool Buyer::removeFromCart(const std::string& name) 
+bool Buyer::removeFromCart(const std::string& name)
 {
     return cart.removeItem(name);
 }
@@ -84,38 +88,38 @@ void Buyer::viewCart() const {
     cart.show();
 }
 
-void Buyer::addPurchase(const Purchase& p) 
-{ 
-    purchases.push_back(p); 
+void Buyer::addPurchase(const Purchase& p)
+{
+    purchases.push_back(p);
 }
 
-void Buyer::viewBought() const 
+void Buyer::viewBought() const
 {
     bool any = false;
     for (const auto& p : purchases) {
-        if (p.getStatus() == PurchaseStatus::DELIVERED) 
-        { 
-            p.show(); any = true; 
+        if (p.getStatus() == PurchaseStatus::DELIVERED)
+        {
+            p.show(); any = true;
         }
     }
     if (!any) std::cout << " No delivered purchases.\n";
 }
 
-void Buyer::viewPurchases() const 
+void Buyer::viewPurchases() const
 {
-    if (purchases.empty()) 
-    { 
-        std::cout << " No purchases yet.\n"; return; 
+    if (purchases.empty())
+    {
+        std::cout << " No purchases yet.\n"; return;
     }
     for (const auto& p : purchases) p.show();
 }
 
-void Buyer::addDiscount(Discount* d) 
-{ 
+void Buyer::addDiscount(Discount* d)
+{
     if (d) discounts.push_back(d);
 }
 
-Discount* Buyer::pickBestDiscount() const 
+Discount* Buyer::pickBestDiscount() const
 {
     if (discounts.empty() || cart.isEmpty()) return nullptr;
     double normalTotal = cart.getTotal();
@@ -128,7 +132,7 @@ Discount* Buyer::pickBestDiscount() const
     return best;
 }
 
-void Buyer::removeDiscount(Discount* d) 
+void Buyer::removeDiscount(Discount* d)
 {
     for (size_t i = 0; i < discounts.size(); ++i) {
         if (discounts[i] == d) {

@@ -1,6 +1,8 @@
 #include "Fragrance.h"
 //#include <stdexpect>
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 
 int Fragrance::nextId = 1;
 
@@ -122,10 +124,12 @@ int Fragrance::countReviewsByUser(int userId) const
 }
 
 void Fragrance::show() const {
-	std::cout << "  [#" << fragranceId << "] " << fragranceName
-		<< " | " << brandToString(brand)
-		<< " | " << familyToString(family)
-		<< " | $" << price
-		<< " | qty:" << quantity
-		<< " | rating:" << getRating() << "\n";
+	std::cout << "  | "
+		<< std::left << std::setw(2) << fragranceId << " | "
+		<< std::left << std::setw(20) << fragranceName << " | "
+		<< std::left << std::setw(10) << brandToString(brand) << " | "
+		<< std::left << std::setw(9) << familyToString(family) << " | "
+		<< "$" << std::left << std::setw(5) << (int)price << " | "
+		<< std::left << std::setw(5) << quantity << " | "
+		<< std::fixed << std::setprecision(1) << getRating() << "    |\n";
 }
