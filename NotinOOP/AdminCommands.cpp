@@ -1,5 +1,6 @@
 #include "AdminCommands.h"
 #include <iostream>
+#include <stdexcept>
 
 AdminCommands::AdminCommands(CommandRouter& sys) : sys(sys) {}
 
@@ -46,6 +47,7 @@ void AdminCommands::createFragrance(const std::string& name, const std::string& 
 void AdminCommands::addQuantity(const std::string& name, int qty) {
     Fragrance* f = sys.findFragrance(name);
     if (!f) { std::cout << "  Fragrance not found.\n"; return; }
+    if (qty < 0) { std::cout << "  Quantity cannot be negative.\n"; return; }
     f->addQuantity(qty);
     std::cout << "  Stock for '" << name << "' is now " << f->getQuantity() << "\n";
 }
@@ -70,6 +72,9 @@ void AdminCommands::deliver(int purchaseId) {
             }
         }
     }
+    else {
+        std::cout << "  Warning: buyer no longer exists (was blocked).\n";
+    }
     std::cout << "  Purchase #" << purchaseId << " delivered.\n";
 }
 
@@ -80,11 +85,18 @@ void AdminCommands::removeReview(int fragranceId, int reviewId) {
     }
     if (!f) { std::cout << "  Fragrance not found.\n"; return; }
 
-    const Review* r = f->findReview(reviewId);
-    if (!r) { std::cout << "  Review not found.\n"; return; }
-
-    int ownerId = r->getUserId();
-    f->removeReview(reviewId);
+    int ownerId = -1;
+    try {
+        const Review * r = f->findReview(reviewId);
+        ownerId = r->getUserId();
+        f->removeReview(reviewId);
+        
+    }
+     catch (const std::exception& e) {
+        std::cout << "  " << e.what() << "\n";
+        return;
+        
+    }
     std::cout << "  Review #" << reviewId << " removed.\n";
 
     Buyer* owner = sys.findBuyer(ownerId);

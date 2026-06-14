@@ -7,16 +7,15 @@
 int Fragrance::nextId = 1;
 
 Fragrance::Fragrance() 
-	:fragranceId(0), brand(Brand::UNKNOWN), price(0), 
-	family(FragranceFamily::UNDISCLOSED), quantity(0)
+	:fragranceId(0), brand(Brand::UNKNOWN), family(FragranceFamily::UNDISCLOSED), price(0), quantity(0)
 {}
 
 Fragrance::Fragrance(const std::string& fragranceName, Brand brand, double price, FragranceFamily family, int quantity)
-:fragranceId(nextId++), fragranceName(fragranceName), brand(brand), price(price),
-family(family), quantity(quantity){}
+	:fragranceId(nextId++), fragranceName(fragranceName), brand(brand), family(family), price(price), quantity(quantity) 
+{}
 
 Fragrance::Fragrance(int id, const std::string& name, Brand brand, double price, FragranceFamily family, int quantity)
-	: fragranceId(id), fragranceName(name), brand(brand), price(price), family(family), quantity(quantity)
+	: fragranceId(id), fragranceName(name), brand(brand), family(family), price(price), quantity(quantity)
 {
 	if (id >= nextId) nextId = id + 1;
 }

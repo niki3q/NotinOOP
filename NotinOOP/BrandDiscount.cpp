@@ -29,7 +29,7 @@ double BrandDiscount::savings(const std::vector<Fragrance*>& items) const {
 
 std::string BrandDiscount::describe() const {
     return std::to_string((int)discountPercentage) + "% off "
-        + std::to_string((int)brand) + " products";
+        + brandToString(brand) + " products";
 }
 Brand BrandDiscount::getBrand() const
 { 

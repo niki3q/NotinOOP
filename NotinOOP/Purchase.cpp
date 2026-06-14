@@ -5,12 +5,12 @@
 int Purchase::nextId = 1;
 
 Purchase::Purchase()
-	:purchaseId(0), userId(0), totalPrice(0), status(PurchaseStatus::PENDING)
+	:purchaseId(0), userId(0), status(PurchaseStatus::PENDING), totalPrice(0)
 {
 }
 
 Purchase::Purchase(int userId, const std::vector<Fragrance*>& items, double price)
-    : purchaseId(nextId++), userId(userId), totalPrice(price), status(PurchaseStatus::PENDING) 
+    :purchaseId(nextId++), userId(userId), status(PurchaseStatus::PENDING), totalPrice(price)
 {
     for (auto* f : items) fragranceNames.push_back(f->getName());
 }
@@ -66,17 +66,18 @@ void  Purchase::show() const {
     else                                           statusDisplay = "[PENDING]  ";
 
     std::cout << "\n";
-    std::cout << "  +-----------------------------------------+\n";
+    std::cout << "  +--------------------------------------------------------+\n";
     std::cout << "  | Purchase #" << std::left << std::setw(4) << purchaseId
         << "  " << statusDisplay
         << "  $" << std::right << std::setw(8) << std::fixed
         << std::setprecision(2) << totalPrice << " |\n";
+    std::cout << "  | Buyer: user #" << userId << "\n";
     std::cout << "  | Items: ";
     for (size_t i = 0; i < fragranceNames.size(); ++i) {
         if (i > 0) std::cout << ", ";
         std::cout << fragranceNames[i];
     }
     std::cout << "\n";
-    std::cout << "  +-----------------------------------------+\n";
+    std::cout << "  +--------------------------------------------------------+\n";
 }
 

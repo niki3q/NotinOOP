@@ -49,7 +49,16 @@ void BuyerCommands::addToBalance(double amount) {
 void BuyerCommands::addToCart(const std::string& name) {
     Fragrance* f = sys.findFragrance(name);
     if (!f) { std::cout << "  Fragrance not found.\n"; return; }
-    if (f->getQuantity() == 0) { std::cout << "  Out of stock.\n";        return; }
+    if (f->getQuantity() == 0) { std::cout << "  Out of stock.\n"; return; }
+    int inCart = 0;
+    for (Fragrance* g : buyer()->getCart().getItems())
+         if (g == f) inCart++;
+    if (inCart >= f->getQuantity()) {
+        std::cout << "  Only " << f->getQuantity()
+             << " in stock; you already have that many in your cart.\n";
+        return;
+        
+    }
     buyer()->addToCart(f);
     std::cout << "  '" << name << "' added to cart.\n";
 }
@@ -134,6 +143,16 @@ void BuyerCommands::checkout() {
     if (b->getCart().isEmpty()) { std::cout << "  Your cart is empty.\n"; return; }
 
     const std::vector<Fragrance*>& items = b->getCart().getItems();
+    for (Fragrance* f : items) {
+        int wanted = 0;
+        for (Fragrance* g : items) if (g == f) wanted++;
+        if (wanted > f->getQuantity()) {
+            std::cout << "  Not enough stock for '" << f->getName() << "' ("
+                 << f->getQuantity() << " available, " << wanted << " in cart).\n";
+            return;
+            
+        }
+    }
     double total = b->getCart().getTotal();
 
     Discount* best = b->pickBestDiscount();
@@ -183,7 +202,12 @@ void BuyerCommands::cancel(int purchaseId) {
             break;
         }
     }
-    std::cout << "  Purchase #" << purchaseId << " cancelled.\n";
+    b->addToBalance(gp->getTotalPrice());
+    for (const std::string& nm : gp->getFragranceNames()) {
+        Fragrance * f = sys.findFragrance(nm);
+        if (f) f->addQuantity(1);   
+    }
+    std::cout << "  Purchase #" << purchaseId << " cancelled. $" << gp->getTotalPrice() << " refunded.\n";
 }
 
 void BuyerCommands::viewBought() {
