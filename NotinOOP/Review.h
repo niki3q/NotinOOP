@@ -13,10 +13,8 @@ private:
 	double rating;
 
 public:
-	Review(int userId, const std::string& fragranceName,
-		double rating, const std::string& comment);
-	Review(int id, int userId, const std::string& fragranceName,
-		double rating, const std::string& comment);
+	Review(int userId, const std::string& fragranceName, double rating, const std::string& comment);
+	Review(int id, int userId, const std::string& fragranceName, double rating, const std::string& comment);
 
 	int getReviewId() const;
 	int getUserId() const;

@@ -60,7 +60,7 @@ void Load::fromFile(const std::string& filename,
             }
             else if (t[0] == "BUYER" && t.size() >= 7) {
                 double balance = std::stod(t[5]);
-                int    removedRevs = std::stoi(t[6]);
+                int removedRevs = std::stoi(t[6]);
 
                 Buyer* b = new Buyer(id, uname, pass, blocked, balance, removedRevs);
 
@@ -73,7 +73,7 @@ void Load::fromFile(const std::string& filename,
                     for (const std::string& entry : split(t[8], ';')) {
                         std::vector<std::string> d = split(entry, ':');
                         if (d.size() < 3) continue;
-                        int    did = std::stoi(d[1]);
+                        int did = std::stoi(d[1]);
                         double pct = std::stod(d[2]);
 
                         if (d[0] == "BONUS" && d.size() >= 4)
@@ -92,16 +92,15 @@ void Load::fromFile(const std::string& filename,
 
         else if (section == "FRAGRANCES" && t.size() >= 6) {
             int id = std::stoi(t[0]);
-            fragrances.emplace_back(id, t[1],
-                brandFromString(t[2]), std::stod(t[4]),
+            fragrances.emplace_back(id, t[1], brandFromString(t[2]), std::stod(t[4]),
                 familyFromString(t[3]), std::stoi(t[5]));
             Fragrance::setNextId(id);
         }
 
         else if (section == "REVIEWS" && t.size() >= 5) {
             std::string fragName = t[0];
-            int    rId = std::stoi(t[1]);
-            int    uId = std::stoi(t[2]);
+            int rId = std::stoi(t[1]);
+            int uId = std::stoi(t[2]);
             double rat = std::stod(t[3]);
             std::string  comm = t[4];
 
@@ -115,8 +114,8 @@ void Load::fromFile(const std::string& filename,
         }
 
         else if (section == "PURCHASES" && t.size() >= 5) {
-            int    id = std::stoi(t[0]);
-            int    uid = std::stoi(t[1]);
+            int id = std::stoi(t[0]);
+            int uid = std::stoi(t[1]);
             PurchaseStatus st = statusFromString(t[2]);
             double tot = std::stod(t[3]);
             std::vector<std::string> names = split(t[4], ',');

@@ -1,6 +1,7 @@
 #include "AdminCommands.h"
 #include <iostream>
 #include <stdexcept>
+#include <iomanip>
 
 AdminCommands::AdminCommands(CommandRouter& sys) : sys(sys) {}
 
@@ -106,5 +107,66 @@ void AdminCommands::removeReview(int fragranceId, int reviewId) {
             std::cout << "  User '" << owner->getUsername()
             << "' auto-blocked (7+ reviews removed).\n";
     }
+}
+
+void AdminCommands::showUndeliveredPurchases() {
+    bool any = false;
+    std::cout << "\n";
+    std::cout << "  +----------+---------+------------+-----------+------------------------------+\n";
+    std::cout << "  | Purchase | Buyer # |   Status   |   Total   | Items                        |\n";
+    std::cout << "  +----------+---------+------------+-----------+------------------------------+\n";
+    for (const Purchase& p : sys.purchases) {
+        if (p.getStatus() == PurchaseStatus::PENDING ||
+            p.getStatus() == PurchaseStatus::CANCELED) {
+
+            std::string statusStr;
+            if (p.getStatus() == PurchaseStatus::PENDING) { statusStr = "[PENDING]  "; }
+            else { statusStr = "[CANCELED] "; }
+
+            std::string itemsList;
+            for (size_t i = 0; i < p.getFragranceNames().size(); ++i) {
+                if (i > 0) itemsList += ", ";
+                itemsList += p.getFragranceNames()[i];
+            }
+            if (itemsList.size() > 28) {
+                itemsList = itemsList.substr(0, 25) + "...";
+            }
+
+            std::cout << "  | #" << std::left << std::setw(7) << p.getPurchaseId()
+                << " | " << std::left << std::setw(7) << p.getUserId()
+                << " | " << statusStr
+                << " | $" << std::right << std::setw(8) << std::fixed
+                << std::setprecision(2) << p.getTotalPrice()
+                << " | " << std::left << std::setw(28) << itemsList << " |\n";
+            any = true;
+        }
+    }
+    std::cout << "  +----------+---------+------------+-----------+------------------------------+\n";
+    if (!any) std::cout << "  No undelivered purchases.\n";
+    std::cout << "\n";
+}
+
+void AdminCommands::viewAllReviews() {
+    bool any = false;
+    std::cout << "\n";
+    std::cout << "  +--------+----+--------+-------+----------------------------------------+\n";
+    std::cout << "  | Fragrance          | Rev# | User# | Stars | Comment                                |\n";
+    std::cout << "  +--------------------+------+-------+-------+----------------------------------------+\n";
+    for (const Fragrance& fr : sys.fragrances) {
+        for (const Review& r : fr.getReviews()) {
+            std::string comment = r.getComment();
+            if (comment.size() > 38) comment = comment.substr(0, 35) + "...";
+            std::cout << "  | " << std::left << std::setw(18) << fr.getName()
+                << " | " << std::left << std::setw(4) << r.getReviewId()
+                << " | " << std::left << std::setw(5) << r.getUserId()
+                << " | " << std::fixed << std::setprecision(1)
+                << std::setw(5) << r.getRating()
+                << " | " << std::left << std::setw(38) << comment << " |\n";
+            any = true;
+        }
+    }
+    std::cout << "  +--------------------+------+-------+-------+----------------------------------------+\n";
+    if (!any) std::cout << "  No reviews found.\n";
+    std::cout << "\n";
 }
 

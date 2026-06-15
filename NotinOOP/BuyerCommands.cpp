@@ -46,6 +46,10 @@ void BuyerCommands::addToBalance(double amount) {
     std::cout << "  New balance: $" << buyer()->getBalance() << "\n";
 }
 
+void BuyerCommands::showBalance() {
+    buyer()->showBalance();
+}
+
 void BuyerCommands::addToCart(const std::string& name) {
     Fragrance* f = sys.findFragrance(name);
     if (!f) { std::cout << "  Fragrance not found.\n"; return; }
@@ -97,7 +101,7 @@ void BuyerCommands::recommend() {
     }
 
     std::vector<FragranceFamily> families;
-    std::vector<int>             counts;
+    std::vector<int> counts;
 
     for (const std::string& name : wl) {
         Fragrance* f = sys.findFragrance(name);
@@ -114,7 +118,7 @@ void BuyerCommands::recommend() {
     if (families.empty()) { std::cout << "  Nothing to recommend.\n"; return; }
 
     FragranceFamily bestFamily = families[0];
-    int             bestCount = counts[0];
+    int bestCount = counts[0];
     for (size_t i = 1; i < families.size(); i++) {
         if (counts[i] > bestCount) { bestCount = counts[i]; bestFamily = families[i]; }
     }
@@ -218,8 +222,7 @@ void BuyerCommands::viewPurchases() {
     buyer()->viewPurchases();
 }
 
-void BuyerCommands::makeReview(const std::string& fragName,
-    double rating, const std::string& comment)
+void BuyerCommands::makeReview(const std::string& fragName, double rating, const std::string& comment)
 {
     Fragrance* f = sys.findFragrance(fragName);
     if (!f) { std::cout << "  Fragrance not found.\n"; return; }

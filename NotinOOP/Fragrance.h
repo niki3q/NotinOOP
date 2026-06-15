@@ -20,7 +20,6 @@ private:
 public:
 	Fragrance();
 	Fragrance(const std::string& fragranceName, Brand brand, double price, FragranceFamily family, int quantity);
-
 	Fragrance(int id, const std::string& name, Brand brand, double price, FragranceFamily family, int quantity);
 
 	int getFragranceId() const;

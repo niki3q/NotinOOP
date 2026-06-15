@@ -30,6 +30,8 @@ void Admin::showHelp() const
         << "  | add-quantity <name> <n>  | add stock to a fragrance         |\n"
         << "  | deliver <purchase-id>    | mark purchase as delivered       |\n"
         << "  | remove-review <fid> <rid>| remove a review by ids           |\n"
+        << "  | view-all-reviews         | list every review in the store   |\n"
+        << "  | show-undelivered         | list all pending/canceled orders |\n"
         << "  | list-fragrances          | show full catalogue              |\n"
         << "  | logout                   | log out                          |\n"
         << "  | help                     | show this menu                   |\n"

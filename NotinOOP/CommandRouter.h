@@ -13,9 +13,9 @@ class AdminCommands;
 
 class CommandRouter {
 public:
-    std::vector<User*>     users;
+    std::vector<User*> users;
     std::vector<Fragrance> fragrances;
-    std::vector<Purchase>  purchases;
+    std::vector<Purchase> purchases;
     User* currentUser;
     const std::string DB_FILE = "database.txt";
 

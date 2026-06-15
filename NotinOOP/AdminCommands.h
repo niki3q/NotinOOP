@@ -15,5 +15,7 @@ public:
     void removeReview(int fragranceId, int reviewId);  
 
     void createAdmin(const std::string& username, const std::string& password);
+    void showUndeliveredPurchases();
+    void viewAllReviews();
 
 };

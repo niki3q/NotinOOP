@@ -24,6 +24,16 @@ CommandRouter::CommandRouter() : currentUser(nullptr) {
         fragrances.emplace_back("Black-Orchid", Brand::GUCCI, 120.0, FragranceFamily::ORIENTAL, 10);
         fragrances.emplace_back("L'Homme", Brand::YSL, 90.0, FragranceFamily::WOODY, 12);
         fragrances.emplace_back("Baccarat-540", Brand::XERJOFF, 300.0, FragranceFamily::FLORAL, 5);
+        fragrances.emplace_back("Oud Dream", Brand::MONTALE, 140.0, FragranceFamily::ORIENTAL, 40);
+        fragrances.emplace_back("Wind Wood", Brand::MANCERA, 145.0, FragranceFamily::WOODY, 32);
+        fragrances.emplace_back("Fiero", Brand::XERJOFF, 290.0, FragranceFamily::CITRUS, 20);
+        fragrances.emplace_back("Raghba Wood Intense", Brand::LATAFFA, 45.0, FragranceFamily::GOURMAND, 55);
+        fragrances.emplace_back("M7 Oud Absolu", Brand::YSL, 130.0, FragranceFamily::WOODY, 15);
+        fragrances.emplace_back("Aura Maris", Brand::XERJOFF, 275.0, FragranceFamily::AQUATIC, 30);
+        fragrances.emplace_back("Saharian Wind", Brand::MANCERA, 145.0, FragranceFamily::SPICY, 40);
+        fragrances.emplace_back("Full Incense", Brand::MONTALE, 140.0, FragranceFamily::ORIENTAL, 20);
+        fragrances.emplace_back("Ameerat Al Arab", Brand::LATAFFA, 40.0, FragranceFamily::FRUITY, 50);
+        fragrances.emplace_back("Purple Oud", Brand::DIOR, 280.0, FragranceFamily::WOODY, 20);
     }
 }
 
@@ -58,6 +68,11 @@ Buyer* CommandRouter::findBuyer(int userId) {
 
 void CommandRouter::handleRegister(const std::string& username, const std::string& password)
 {
+    if (username.empty() || password.empty()) {
+        std::cout << "  Usage: register <username> <password>\n";
+        std::cout << "  Both username and password are required.\n";
+        return;
+    }
     if (findUser(username)) {
         std::cout << "  Username '" << username << "' is already taken.\n";
         return;
@@ -138,6 +153,7 @@ void CommandRouter::run() {
         //buyer
         if (!currentUser->isAdmin()) {
             if (cmd == "add-to-balance") { double a; iss >> a; buyerCmd.addToBalance(a); }
+            else if (cmd == "show-balance") { buyerCmd.showBalance(); }
             else if (cmd == "add-to-cart") {
                 std::string name;
                 std::getline(iss >> std::ws, name);
@@ -197,6 +213,7 @@ void CommandRouter::run() {
         else if (cmd == "add-quantity") { std::string n; int q; iss >> n >> q; adminCmd.addQuantity(n, q); }
         else if (cmd == "deliver") { int id; iss >> id; adminCmd.deliver(id); }
         else if (cmd == "remove-review") { int fid, rid; iss >> fid >> rid; adminCmd.removeReview(fid, rid); }
+        else if (cmd == "show-undelivered") { adminCmd.showUndeliveredPurchases(); }
         else { std::cout << "  Unknown command. Type 'help'.\n"; }
     }
 }

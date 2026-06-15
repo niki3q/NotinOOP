@@ -23,6 +23,7 @@ void Buyer::showHelp() const {
         << "  |                     Buyer Commands                          |\n"
         << "  |-------------------------------------------------------------|\n"
         << "  | add-to-balance <amount>  | top up your balance              |\n"
+        << "  | show-balance             | display your current balance     |\n"
         << "  | add-to-cart <name>       | add fragrance to cart            |\n"
         << "  | remove-from-cart <name>  | remove from cart                 |\n"
         << "  | view-cart                | show current cart                |\n"
@@ -49,6 +50,10 @@ bool Buyer::deductBalance(double amount) {
     if (balance < amount) return false;
     balance -= amount;
     return true;
+}
+
+void Buyer::showBalance() const {
+    std::cout << "  Balance: $" << std::fixed << std::setprecision(2) << balance << "\n";
 }
 
 bool Buyer::addToWishlist(const std::string& name) {

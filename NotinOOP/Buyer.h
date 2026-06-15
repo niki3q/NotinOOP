@@ -32,7 +32,8 @@ public:
 
     double getBalance() const { return balance; }
     void addToBalance(double amount);
-    bool deductBalance(double amount);   
+    bool deductBalance(double amount); 
+    void showBalance() const;
 
     bool addToWishlist(const std::string& name);          
     bool removeFromWishlist(const std::string& name);    

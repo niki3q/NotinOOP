@@ -4,7 +4,6 @@
 class BuyerCommands {
 private:
     CommandRouter& sys;
-
     Buyer* buyer();
 
     void giveRandomDiscount(Buyer* b);
@@ -13,6 +12,7 @@ public:
     explicit BuyerCommands(CommandRouter& sys);
 
     void addToBalance(double amount);
+    void showBalance();
     void addToCart(const std::string& name);
     void removeFromCart(const std::string& name);
     void viewCart();

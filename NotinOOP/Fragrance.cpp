@@ -72,21 +72,9 @@ void Fragrance::addReview(const Review& newReview) {
 }
 
 bool Fragrance::removeReview(int reviewId) {
-	if (reviews.empty()) {
-		throw std::runtime_error("Cannot remove review: No reviews available for fragrance '"
-			+ fragranceName + "'");
-	}
+	const Review* reviewPtr = findReview(reviewId);
 
-	auto it = std::find_if(reviews.begin(), reviews.end(),
-		[reviewId](const Review& r) {
-			return r.getReviewId() == reviewId;
-		});
-
-	if (it == reviews.end()) {
-		throw std::invalid_argument("Review with ID " + std::to_string(reviewId)
-			+ " not found in fragrance '" + fragranceName + "'");
-	}
-
+	auto it = reviews.begin() + (reviewPtr - reviews.data());
 	reviews.erase(it);
 
 	std::cout << "Review #" << reviewId << " successfully removed from '"
